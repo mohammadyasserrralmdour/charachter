@@ -9,12 +9,13 @@ class CharacterRepo {
   const CharacterRepo({required this.remouteDataSource});
   Future<List<CharachterModel>> getData() async {
     try {
+            logger.i("Start Repo");
+
       List data = await remouteDataSource.getDataFromHttp();
-      logger.i("Success");
       List<CharachterModel> models = data
           .map<CharachterModel>((e) => CharachterModel.fromJson(e))
           .toList();
-      logger.i("Success to model");
+      logger.i("Start Repo");
       
       return models;
     } catch (e) {
