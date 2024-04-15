@@ -17,15 +17,15 @@ CharacterRepo characterRepo=CharacterRepo(remouteDataSource: remouteDataSource);
 class _CharachterScreenState extends State<CharachterScreen> {
   late List<CharachterModel> data ;
   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   try{
-  //     CharachterCubit(characterRepo).getData();
-  //   }catch(e,s){
-  //     print("$s");
-  //   }
-  // }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    try{
+      CharachterCubit(characterRepo).getData();
+    }catch(e,s){
+      print("$s");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +39,19 @@ class _CharachterScreenState extends State<CharachterScreen> {
           characterRepo.getData();
         }, child: Text("Change"))
         
-        //  BlocBuilder<CharachterCubit, CharachterState>(
-        //   builder: (_, state) {
-        //     if (state is CharachterLoaded) {
-        //       data = (state).modeles;
-        //       return buildbody();
-        //     } else   {
-        //       return Progress();
-        //     } 
-        //     // else {
-        //     //   return Center(child: Text("Erorr"),);
-        //     // }
-        //   },
-        // )
+         BlocBuilder<CharachterCubit, CharachterState>(
+          builder: (_, state) {
+            if (state is CharachterLoaded) {
+              data = (state).modeles;
+              return buildbody();
+            } else   {
+              return Progress();
+            } 
+            // else {
+            //   return Center(child: Text("Erorr"),);
+            // }
+          },
+        )
         );
   }
 
