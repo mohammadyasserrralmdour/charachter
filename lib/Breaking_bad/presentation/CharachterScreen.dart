@@ -35,10 +35,7 @@ class _CharachterScreenState extends State<CharachterScreen> {
           backgroundColor: Color.fromARGB(255, 231, 140, 240),
           title: const Text(''),
         ),
-        body:ElevatedButton(onPressed: () {
-          characterRepo.getData();
-        }, child: Text("Change"))
-        
+        body:
          BlocBuilder<CharachterCubit, CharachterState>(
           builder: (_, state) {
             if (state is CharachterLoaded) {
