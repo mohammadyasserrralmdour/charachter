@@ -15,7 +15,7 @@ class CharacterRepo {
       List<CharachterModel> models = data
           .map<CharachterModel>((e) => CharachterModel.fromJson(e))
           .toList();
-      logger.i("Start Repo");
+      logger.i("End Repo");
       
       return models;
     } catch (e) {
