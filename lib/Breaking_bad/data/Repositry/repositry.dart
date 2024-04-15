@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 Logger logger = Logger();
 
 class CharacterRepo {
-  final RemouteDataSource remouteDataSource;
+  final RemouteDataSourceHttp remouteDataSource;
   const CharacterRepo({required this.remouteDataSource});
   Future<List<CharachterModel>> getData() async {
     try {

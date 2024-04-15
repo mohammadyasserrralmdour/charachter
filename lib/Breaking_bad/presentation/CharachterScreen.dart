@@ -12,7 +12,7 @@ class CharachterScreen extends StatefulWidget {
   _CharachterScreenState createState() => _CharachterScreenState();
 }
 
-RemouteDataSource remouteDataSource = RemouteDataSource();
+RemouteDataSourceHttp remouteDataSource = RemouteDataSourceHttp();
 CharacterRepo characterRepo=CharacterRepo(remouteDataSource: remouteDataSource);
 class _CharachterScreenState extends State<CharachterScreen> {
   late List<CharachterModel> data ;
