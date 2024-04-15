@@ -9,31 +9,15 @@ import 'package:http/http.dart' as http;
 Logger logger = Logger();
 
 abstract class RemouteDataSource {
-  Future<List<dynamic>> getData();
+  Future<List<dynamic>> getDataFromDio();
+  Future<List<dynamic>> getDataFromHttp();
 }
 
-class RemouteDataSourceHttp implements RemouteDataSource {
-  late List<CharachterModel> models;
-
-  getData() async {
-    try {
-      logger.i("Start Connecction to http ");
-      final response = await http.get(Uri.parse(baseurl));
-      logger.i("get Response from http");
-
-      var data = json.decode(response.body);
-
-      return data["results"];
-    } catch (e, s) {
-      logger.e("stack erorr is $s");
-      rethrow;
-    }
-  }
-}
-
-class RemouteDataSourceDio implements RemouteDataSource {
+class RemouteDataSourceImp implements RemouteDataSource {
+  
   late Dio dio;
-  RemouteDataSource() {
+
+  RemouteDataSourceImp() {
     BaseOptions baseOptions = BaseOptions(
         baseUrl: baseurl,
         connectTimeout: const Duration(seconds: 60),
@@ -43,12 +27,23 @@ class RemouteDataSourceDio implements RemouteDataSource {
       baseOptions,
     );
   }
+  getDataFromHttp() async {
+    try {
+      logger.i("Start Connecction to http ");
+      final response = await http.get(Uri.parse(baseurl));
+      var data = json.decode(response.body);
+      logger.i("End Connecction to http ");
+      return data["results"];
+    } catch (e, s) {
+      logger.e("stack erorr is $s");
+      rethrow;
+    }
+  }
 
-  getData() async {
+  getDataFromDio() async {
     try {
       final response = await dio.get("character");
       logger.i("Success getfrom api");
-      // var   data=jsonDecode(response.data);
       print(response.data.toString());
       return response.data["results"];
     } catch (e, s) {

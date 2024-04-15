@@ -5,11 +5,11 @@ import 'package:logger/logger.dart';
 Logger logger = Logger();
 
 class CharacterRepo {
-  final RemouteDataSourceHttp remouteDataSource;
+  final RemouteDataSourceImp remouteDataSource;
   const CharacterRepo({required this.remouteDataSource});
   Future<List<CharachterModel>> getData() async {
     try {
-      List data = await remouteDataSource.getData();
+      List data = await remouteDataSource.getDataFromHttp();
       logger.i("Success");
       List<CharachterModel> models = data
           .map<CharachterModel>((e) => CharachterModel.fromJson(e))
