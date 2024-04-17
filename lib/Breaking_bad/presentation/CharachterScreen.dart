@@ -12,38 +12,35 @@ class CharachterScreen extends StatefulWidget {
   _CharachterScreenState createState() => _CharachterScreenState();
 }
 
-RemouteDataSource remouteDataSource = RemouteDataSource();
-CharacterRepo characterRepo=CharacterRepo(remouteDataSource: remouteDataSource);
+RemouteDataSourceImp remouteDataSource = RemouteDataSourceImp();
+CharacterRepo characterRepo =
+    CharacterRepo(remouteDataSource: remouteDataSource);
+
 class _CharachterScreenState extends State<CharachterScreen> {
-  late List<CharachterModel> data ;
+  late List<CharachterModel> data;
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-    try{
-      CharachterCubit(characterRepo).getData();
-    }catch(e,s){
-      print("$s");
-    }
+    
+    CharachterCubit(characterRepo).getData();
   }
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 231, 140, 240),
           title: const Text(''),
         ),
-        body:
+        body: 
+
          BlocBuilder<CharachterCubit, CharachterState>(
           builder: (_, state) {
             if (state is CharachterLoaded) {
-              data = (state).modeles;
+              data = state.modeles;
               return buildbody();
-            } else   {
+            } if(state is CharachterLoading)   {
               return Progress();
-            } 
+            };return Center(child: Text("Erorr"),);
             // else {
             //   return Center(child: Text("Erorr"),);
             // }
@@ -65,7 +62,11 @@ class _CharachterScreenState extends State<CharachterScreen> {
       ),
       itemCount: data.length,
       itemBuilder: (context, index) {
-        return GridTile(child: Container(color: Colors.red,child: Text("data"),));
+        return GridTile(
+            child: Container(
+          color: Colors.red,
+          child: Text("data"),
+        ));
       },
     );
   }

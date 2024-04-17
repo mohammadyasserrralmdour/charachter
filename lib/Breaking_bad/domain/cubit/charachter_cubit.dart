@@ -12,14 +12,13 @@ class CharachterCubit extends Cubit<CharachterState> {
 
   Future<List<CharachterModel>> getData() async {
     logger.i("Start Cubit");
-    List<CharachterModel> e = await repo.getData();
-    emit(CharachterLoaded(modeles: e));
-    logger.i("Start equal");
+    mymodeles = await repo.getData();
 
-    mymodeles = e;
+   //  emit(CharachterErorr(message: "Erorr"));
 
     logger.i("End Cubit");
+     //  emit(CharachterLoaded(modeles: mymodeles));
 
-    return e;
+    return mymodeles;
   }
 }

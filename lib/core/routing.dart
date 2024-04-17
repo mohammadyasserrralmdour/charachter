@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AppRoute {
   late CharacterRepo repo;
   AppRoute() {
-    repo = CharacterRepo(remouteDataSource: RemouteDataSource());
+    repo = CharacterRepo(remouteDataSource: RemouteDataSourceImp());
   }
   getnerator(RouteSettings setting) {
     switch (setting.name) {
