@@ -20,13 +20,8 @@ class _CharachterScreenState extends State<CharachterScreen> {
   late List<CharachterModel> data;
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-    try{
-      CharachterCubit(characterRepo).getData();
-    }catch(e,s){
-      print("$s");
-    }
+    
+    CharachterCubit(characterRepo).getData();
   }
 
   @override
@@ -41,11 +36,11 @@ class _CharachterScreenState extends State<CharachterScreen> {
          BlocBuilder<CharachterCubit, CharachterState>(
           builder: (_, state) {
             if (state is CharachterLoaded) {
-              data = (state).modeles;
+              data = state.modeles;
               return buildbody();
-            } else   {
+            } if(state is CharachterLoading)   {
               return Progress();
-            }
+            };return Center(child: Text("Erorr"),);
             // else {
             //   return Center(child: Text("Erorr"),);
             // }

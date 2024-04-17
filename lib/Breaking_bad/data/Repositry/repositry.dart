@@ -16,7 +16,6 @@ class CharacterRepo {
           .map<CharachterModel>((e) => CharachterModel.fromJson(e))
           .toList();
       logger.i("End Repo");
-      
       return models;
     } catch (e) {
       logger.e("Repo ${e.runtimeType}");
