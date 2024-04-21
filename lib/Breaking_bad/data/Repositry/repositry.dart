@@ -5,17 +5,18 @@ import 'package:logger/logger.dart';
 Logger logger = Logger();
 
 class CharacterRepo {
+  List<CharachterModel> models=[];
   final RemouteDataSourceImp remouteDataSource;
-  const CharacterRepo({required this.remouteDataSource});
+   CharacterRepo({required this.remouteDataSource});
   Future<List<CharachterModel>> getData() async {
     try {
             logger.i("Start Repo");
 
       List data = await remouteDataSource.getDataFromHttp();
-      List<CharachterModel> models = data
+       models = data
           .map<CharachterModel>((e) => CharachterModel.fromJson(e))
           .toList();
-      logger.i("End Repo");
+      logger.i("End Repo");logger.i("Type of List Model is  ${models[1]}");
       return models;
     } catch (e) {
       logger.e("Repo ${e.runtimeType}");

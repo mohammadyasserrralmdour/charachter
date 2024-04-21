@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_advanced/Breaking_bad/data/Model/charachter.dart';
@@ -16,6 +17,7 @@ abstract class RemouteDataSource {
 class RemouteDataSourceImp implements RemouteDataSource {
   
   late Dio dio;
+      http.Client  client=http.Client();
 
   RemouteDataSourceImp() {
     BaseOptions baseOptions = BaseOptions(
@@ -30,7 +32,7 @@ class RemouteDataSourceImp implements RemouteDataSource {
   getDataFromHttp() async {
     try {
       logger.i("Start Connecction to http ");
-      final response = await http.get(Uri.parse(baseurl));
+      final response = await client.get(Uri.parse(baseurl));
       var data = json.decode(response.body);
       logger.i("End Connecction to http ");
       return data["results"];

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_advanced/Breaking_bad/data/Model/charachter.dart';
 import 'package:flutter_advanced/Breaking_bad/data/Repositry/repositry.dart';
 import 'package:meta/meta.dart';
@@ -10,15 +11,20 @@ class CharachterCubit extends Cubit<CharachterState> {
   List<CharachterModel> mymodeles = [];
   CharachterCubit(this.repo) : super(CharachterLoading());
 
-  Future<List<CharachterModel>> getData() async {
+   getData()  {
+              emit(CharachterLoading());
+
     logger.i("Start Cubit");
-    mymodeles = await repo.getData();
+    try{
+      repo.getData().then((value) {
+      mymodeles = value; //print("$value");
+          emit(CharachterLoaded(modeles: mymodeles));});
 
-   //  emit(CharachterErorr(message: "Erorr"));
+    }catch(e,s){
+      emit(CharachterErorr(message: "Erorr get Data"));
+          logger.e("Erorr is $s");
 
+    }
     logger.i("End Cubit");
-     //  emit(CharachterLoaded(modeles: mymodeles));
-
-    return mymodeles;
   }
 }
