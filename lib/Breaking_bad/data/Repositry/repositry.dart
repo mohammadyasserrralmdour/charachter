@@ -20,7 +20,7 @@ class CharacterRepo {
       return models;
     } catch (e) {
       logger.e("Repo ${e.runtimeType}");
-      return [];
+      rethrow;
     }
   }
 }

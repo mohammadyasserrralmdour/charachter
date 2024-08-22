@@ -15,6 +15,16 @@ final class CharachterLoading extends CharachterState {
   List<Object?> get props => [];
 }
 
+final class Initial extends CharachterState {
+ 
+
+  Initial();
+  
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+  
+}
 
 final class CharachterLoaded extends CharachterState {
   final List<CharachterModel> modeles;

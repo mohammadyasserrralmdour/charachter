@@ -13,19 +13,23 @@ class CharachterScreen extends StatefulWidget {
 class _CharachterScreenState extends State<CharachterScreen> {
   List<CharachterModel> data_api = [];
   List<CharachterModel> data_search = [];
-
-  final TextEditingController _controller=TextEditingController();
+  
+  final TextEditingController _controller = TextEditingController();
   bool isSearching = false;
 
   @override
-  @override
+  void initState()  {
+     context.read<CharachterCubit>().getData();
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
-        List<CharachterModel> data_ui = isSearching?data_search:data_api;
+   
 
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            context.read<CharachterCubit>().getData();
+          onPressed: () async {
+            await context.read<CharachterCubit>().getData();
           },
           child: Text("GetData"),
         ),
@@ -35,12 +39,20 @@ class _CharachterScreenState extends State<CharachterScreen> {
           actions: _buildAction(),
         ),
         body: BlocBuilder<CharachterCubit, CharachterState>(
-          builder: (_, state) {
+          buildWhen: (previous, current) =>
+              current is CharachterLoaded ||
+              current is CharachterErorr ||
+              current is CharachterLoading,
+          builder: (context, state) {
             if (state is CharachterLoading) {
-              return Progress();
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             } else if (state is CharachterLoaded) {
               data_api = state.modeles;
-              return buildbody(data_ui);
+              data_search =isSearching?data_search :state.modeles;
+              return buildbody(isSearching?data_search:data_api);
+        
             } else if (state is CharachterErorr) {
               return Text(state.message);
             } else {
@@ -51,11 +63,18 @@ class _CharachterScreenState extends State<CharachterScreen> {
   }
 
   Widget _buildsearching() {
-    return TextField(controller: _controller,
-    decoration: InputDecoration(hintText: "Find Character"),
-    onChanged: (name) {
-      data_search=data_api.where((element) => element.name!.toLowerCase().startsWith(_controller.text)).toList();
-    },
+    return TextField(
+      controller: _controller,
+      decoration: InputDecoration(hintText: "Find Character"),
+      onChanged: (nam) {
+        setState(() {
+          data_search = data_api
+            .where((element) =>
+                element.name!.toLowerCase().startsWith(_controller.text))
+            .toList();
+            print(data_search.length.toString());
+        });
+      },
     );
   }
 
@@ -63,13 +82,17 @@ class _CharachterScreenState extends State<CharachterScreen> {
     return Text("Characters");
   }
 
-   List<Widget> _buildAction(){
-    return [IconButton(onPressed: () {
-      setState(() {
-        isSearching=!isSearching;
-      });
-    }, icon: Icon(isSearching?Icons.clear_rounded:Icons.search))];
-   }
+  List<Widget> _buildAction() {
+    return [
+      IconButton(
+          onPressed: () {
+            setState(() {
+              isSearching = !isSearching;
+            });
+          },
+          icon: Icon(isSearching ? Icons.clear_rounded : Icons.search))
+    ];
+  }
 
   Widget Progress() {
     return Center(
@@ -78,6 +101,7 @@ class _CharachterScreenState extends State<CharachterScreen> {
   }
 
   Widget buildbody(List<CharachterModel> modeles) {
+  
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GridView.builder(
